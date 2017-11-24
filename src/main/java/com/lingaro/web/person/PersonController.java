@@ -1,7 +1,5 @@
-package com.lingaro.web;
+package com.lingaro.web.person;
 
-import com.lingaro.web.dto.Person;
-import com.lingaro.web.dto.PersonRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,9 +9,11 @@ import java.util.List;
 public class PersonController {
 
     private final PersonRepository personRepository;
+    private final PersonService personService;
 
-    public PersonController(PersonRepository personRepository) {
+    public PersonController(PersonRepository personRepository, PersonService personService) {
         this.personRepository = personRepository;
+        this.personService = personService;
     }
 
     @GetMapping()
@@ -23,12 +23,6 @@ public class PersonController {
 
     @PostMapping
     public Person add(@RequestBody Person person) {
-        return personRepository.save(person);
-    }
-
-    @GetMapping("/add")
-    public Person add(@RequestParam("name") String name) {
-        Person person = new Person(name, "");
-        return personRepository.save(person);
+        return personService.save(person);
     }
 }
