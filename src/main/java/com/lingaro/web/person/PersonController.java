@@ -1,8 +1,5 @@
 package com.lingaro.web.person;
 
-import com.lingaro.web.person.Person;
-import com.lingaro.web.person.PersonRepository;
-import com.lingaro.web.person.PersonService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

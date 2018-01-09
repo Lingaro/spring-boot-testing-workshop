@@ -4,6 +4,7 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.omg.CORBA.PERSIST_STORE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -13,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -23,6 +26,8 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 public class PersonControllerRestTest {
     @Autowired
     TestRestTemplate rest;
+    @Autowired
+    PersonRepository personRepository;
 
     @Before
     public void authenticate() {
@@ -41,6 +46,7 @@ public class PersonControllerRestTest {
         assertEquals("Krzysztof", result.name);
         assertEquals("Jeżyna", result.surname);
         Person[] list = rest.getForEntity("/person", Person[].class).getBody();
+        assertThat(personRepository.findAll(), is(Arrays.asList(list)));
         assertThat(
                 Arrays.asList(list),
                 Matchers.hasSize(1)
